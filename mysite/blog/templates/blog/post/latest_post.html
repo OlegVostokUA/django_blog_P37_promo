@@ -1,0 +1,7 @@
+<ul class="navbar-nav">
+    {% for post in latest_post %}
+        <li class="nav-item active">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </li>
+    {% endfor %}
+</ul>

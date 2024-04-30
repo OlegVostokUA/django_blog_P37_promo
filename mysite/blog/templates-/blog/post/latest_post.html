@@ -1,0 +1,7 @@
+<ul class="card-header">
+    {% for post in latest_post %}
+        <li class="nav-link collapsed">
+            <a class="nav-link collapsed" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
