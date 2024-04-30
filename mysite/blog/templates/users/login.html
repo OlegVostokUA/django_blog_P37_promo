@@ -3,17 +3,18 @@
 {% block content %}
     <div class="content-section">
         <form method="POST">
+            {{ form.as_ul }}
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Вход</legend>
+                <legend class="border-bottom mb-4">Вхід</legend>
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Войти</button>
+                <button class="btn btn-outline-info" type="submit">Війти</button>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Нужен аккаунт? <a class="ml-2" href="{% url 'register' %}">Регистрация</a>
+                Потрібен аккаунт? <a class="ml-2" href="{% url 'register' %}">Реєстрація</a>
             </small>
         </div>
     </div>

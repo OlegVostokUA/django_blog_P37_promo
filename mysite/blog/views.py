@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from .models import Post
@@ -100,7 +101,16 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Создан аккаунт {username}!')
-            return redirect('/')
+            return redirect('login')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
+
+
+def logout_confirm(request):
+    return render(request, 'users/logout_confirm.html')

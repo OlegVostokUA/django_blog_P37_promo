@@ -27,8 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'base'
-LOGIN_URL = 'login'
+
 
 # Application definition
 
@@ -127,3 +126,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#### custom settings
+LOGIN_REDIRECT_URL = 'blog:base'
+
+LOGIN_URL = 'login'
