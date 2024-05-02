@@ -11231,6 +11231,12 @@ body {
   border-radius: 0.375rem !important;
 }
 
+.ava-title {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    height: auto;
+}
 
 /*
 .sidebar {
