@@ -15,12 +15,20 @@ from django.contrib import messages
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+
 # class PostListView(ListView):
 #     queryset = Post.objects.all()
 #     context_object_name = 'posts'
 #     paginate_by = 3
 #     template_name = 'blog/post/list.html'
 
+### post views block
 def post_list(request, tag_slug=None):
     object_list = Post.objects.all()
     tag = None
@@ -78,7 +86,7 @@ def post_detail(request, year, month, day, post):
                    'comment_form': comment_form,
                    'similar_posts': similar_posts})
 
-
+### post share
 def post_share(request, post_id):
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status='published')
@@ -95,7 +103,42 @@ def post_share(request, post_id):
     return render(request, 'blog/post/share.html', {'post': post,
                                                     'form': form})
 
+### posts CRUD operations block
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'body', 'slug']
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'body', 'slug']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+### profile operations block
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -136,3 +179,7 @@ def profile(request):
 
 def logout_confirm(request):
     return render(request, 'users/logout_confirm.html')
+
+# about function
+def about(request):
+    return render(request, 'blog/about.html', {'title': 'Про блог'})
